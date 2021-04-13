@@ -1,4 +1,17 @@
-
 .film {
-  
+  &__title {
+    margin: 0.5rem 0rem;
+  }
+  &__crawl {
+    white-space: pre-line;
+    font-family: 'Courier New', Courier, monospace;
+    margin: 1rem 0rem;
+    flex: 0 0 30%;
+    padding: 10px;
+  }
+  display: flex;
+  flex-direction: row;
 }
+
+
+

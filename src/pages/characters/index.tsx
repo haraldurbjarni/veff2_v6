@@ -3,11 +3,11 @@ import Head from 'next/head';
 import { Characters } from '../../components/characters/Characters';
 
 import { Layout } from '../../components/layout/Layout';
-import { fetchCharacters } from '../../lib/swapi';
-import { IPeopleResponse } from '../../types';
+import { fetchCharacters, fetchSwapi } from '../../lib/swapi';
+import { ICharacter, IPeopleResponse } from '../../types';
 
 export type PageProps = {
-  peopleResponse: any; // TODO EKKI any
+  peopleResponse: Array<ICharacter> | null; // TODO EKKI any
 };
 
 export default function PageComponent(
@@ -27,11 +27,10 @@ export default function PageComponent(
 
 export const getServerSideProps: GetServerSideProps<PageProps> = async () => {
   // TODO sækja karaktera
-  const peopleResponse = null;
-
+  const peopleResponse = await fetchCharacters<any>();
   return {
     props: {
-      peopleResponse,
+      peopleResponse: peopleResponse ?? null,
     },
   };
 };

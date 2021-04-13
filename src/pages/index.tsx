@@ -1,15 +1,17 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import Head from 'next/head';
+import { fileURLToPath } from 'url';
 
 import { Film } from '../components/film/Film';
 
 import { Layout } from '../components/layout/Layout';
 import { characterFragment } from '../graphql/characterFragment';
 import { fetchSwapi } from '../lib/swapi';
-import { IFilm } from '../types';
+import { ICharacter, IFilm } from '../types';
 
 export type PageProps = {
   films: Array<IFilm> | null;
+  characters: Array<ICharacter> | null;
 };
 
 export default function PageComponent(
@@ -28,25 +30,43 @@ export default function PageComponent(
       </Head>
       <h1>Star Wars films</h1>
       {films.map((film, i) => (
-        <Film key={i} />
+        <Film
+          key={i}
+          title={film.title || ''}
+          episodeID={film.episodeID || 0}
+          openingCrawl={film.openingCrawl || ''}
+          characters={film.characterConnection?.characters || []}
+        />
+
       ))}
     </Layout>
+
   );
 }
 
 const query = `
-  {
-    # TODO sækja gögn um myndir
+query {
+  allFilms {
+    films {
+      title
+      episodeID
+      openingCrawl
+      characterConnection {
+        characters {
+          id
+          name
+        }
+      }
+    }
   }
-  ${characterFragment}
+}
 `;
 
 export const getServerSideProps: GetServerSideProps<PageProps> = async () => {
   const films = await fetchSwapi<any>(query); // TODO EKKI any
-
   return {
     props: {
-      films,
+      films: films?.allFilms?.films ?? null,
     },
   };
 };
