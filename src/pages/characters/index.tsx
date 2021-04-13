@@ -7,7 +7,7 @@ import { fetchCharacters, fetchSwapi } from '../../lib/swapi';
 import { ICharacter, IPeopleResponse } from '../../types';
 
 export type PageProps = {
-  peopleResponse: Array<ICharacter> | null; // TODO EKKI any
+  peopleResponse: IPeopleResponse | null;
 };
 
 export default function PageComponent(
@@ -20,14 +20,13 @@ export default function PageComponent(
         <title>Star Wars characters</title>
       </Head>
       <h1>Star Wars characters</h1>
-      <Characters />
+      <Characters people={peopleResponse} />
     </Layout>
   );
 }
 
 export const getServerSideProps: GetServerSideProps<PageProps> = async () => {
-  // TODO sækja karaktera
-  const peopleResponse = await fetchCharacters<any>();
+  const peopleResponse = await fetchCharacters<IPeopleResponse>();
   return {
     props: {
       peopleResponse: peopleResponse ?? null,

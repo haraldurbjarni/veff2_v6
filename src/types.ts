@@ -8,14 +8,6 @@ export interface ICharacter {
   hairColor?: string;
   mass?: number;
   height?: number;
-  // TODO fleiri týpur
-}
-
-// TODO hér ættum við að útbúa interface fyrir öll gögn sem við vinnum með (t.d. IFilm, IPaging)
-export interface IPeopleResponse {
-  id: string;
-  name?: string;
-  // TODO fleiri týpur
 }
 
 export interface IFilm {
@@ -23,11 +15,37 @@ export interface IFilm {
   title?: string;
   episodeID?: number;
   openingCrawl?: string;
-  characterConnection?: CharacterConnection;
-  // TODO fleiri týpur
+  characterConnection?: ICharacterConnection;
 }
-// og svör sem við fáum frá GraphQL endapunkti
 
-interface CharacterConnection {
+export interface IFilmResponse {
+  allFilms?: IAllFilms;
+}
+
+interface IAllFilms {
+  films?: Array<IFilm>
+}
+
+interface ICharacterConnection {
   characters?: Array<ICharacter>;
+}
+
+export interface IPeopleResponse {
+  allPeople?: IAllPeople;
+}
+
+interface IAllPeople {
+  pageInfo?: IPageInfo;
+  people?: Array<ICharacter>;
+}
+
+interface IPageInfo {
+  hasNextPage?: boolean;
+  hasPreviousPage?: boolean;
+  startCursor?: string;
+  endCursor?: string;
+}
+
+export interface ICharacterResponse {
+  person: ICharacter;
 }
