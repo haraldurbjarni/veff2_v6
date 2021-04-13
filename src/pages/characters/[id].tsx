@@ -40,14 +40,10 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async ({ params
   const query = `
   query($id: ID!) {
     person(id:$id) {
-      name
-      birthYear
-      eyeColor
-      hairColor
-      mass
-      height
+      ...character
     }
   }
+  ${characterFragment}
   `;
 
   let person = null;

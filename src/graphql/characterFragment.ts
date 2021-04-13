@@ -3,6 +3,11 @@
 // við gögn og stundum ekki.
 export const characterFragment = `
   fragment character on Person {
-    # TODO velja gögn
+    name
+    birthYear
+    eyeColor
+    hairColor
+    mass
+    height
   }
 `;
